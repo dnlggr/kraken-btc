@@ -1,10 +1,15 @@
 [package]
 name = "kraken-btc"
 version = "0.1.0"
-authors = ["Daniel <https://twitter.com/dnlggr>"]
+authors = ["Daniel <hi@dnlggr.xyz>"]
+description = "An opinionated command line interface for buying Bitcoin on Kraken.com."
+homepage = "https://github.com/dnlggr/kraken-btc"
+documentation = "https://github.com/dnlggr/kraken-btc"
+repository = "https://github.com/dnlggr/kraken-btc"
 edition = "2018"
 license = "MIT"
-publish = false
+keywords = ["bitcoin"]
+categories = ["command-line-utilities"]
 
 [dependencies]
 ureq = { version = "1.5.2", features = ["json"] }
