@@ -25,13 +25,12 @@ Binaries for macOS are available through Homebrew and GitHub releases. For other
 ### Homebrew (macOS)
 
 ```
-$ brew tap dnlggr/tap
-$ brew install kraken-btc
+$ brew install dnlggr/tap/kraken-btc
 ```
 
 <details>
   <summary><i>Expand for uninstall instructions</i></summary>
-  <p><code>$ brew untap dnlggr/tap</code></p>
+  <p><code>$ brew untap dnlggr/tap</code> (optional)</p>
   <p><code>$ brew uninstall kraken-btc</code></p>
 </details>
 
