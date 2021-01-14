@@ -5,11 +5,11 @@
 </p>
 
 <h3 align="center">
-  <a href="#installation-">Installation</a>
+  <a href="#-installation-">Installation</a>
   <span> · </span>
-  <a href="#usage">Example</a>
+  <a href="#-usage">Usage</a>
   <span> · </span>
-	<a href="#api-credentials">API Credentials</a>
+  <a href="#-api-credentials">API Credentials</a>
 </h3>
 
 ---
