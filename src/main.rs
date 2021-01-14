@@ -5,8 +5,8 @@ use console::{pad_str, style, Alignment, Emoji};
 use structopt::StructOpt;
 
 use cli::{Buy, Cli, Command};
-use pulpo::buy::Order;
-use pulpo::KeyPair;
+use kraken_btc::buy::Order;
+use kraken_btc::KeyPair;
 
 fn main() -> Result<()> {
     let cli = Cli::from_args();

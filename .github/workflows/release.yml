@@ -14,7 +14,7 @@ env:
 
 jobs:
   build:
-    name: Build 
+    name: Build
     runs-on: macos-latest
     steps:
       - name: Checkout code
@@ -32,21 +32,21 @@ jobs:
           command: build
           args: --release
       - name: Strip symbol table from binary
-        run: strip target/release/pulpo
+        run: strip target/release/kraken-btc
       - name: Archive binary
-        run: zip --junk-paths pulpo-macos target/release/pulpo
-      - name: Calculate SHA-256 
-        run: shasum -a 256 pulpo-macos.zip > pulpo-macos.zip.sha256
-      - name: Upload binary archive 
+        run: zip --junk-paths kraken-btc-macos target/release/kraken-btc
+      - name: Calculate SHA-256
+        run: shasum -a 256 kraken-btc-macos.zip > kraken-btc-macos.zip.sha256
+      - name: Upload binary archive
         uses: actions/upload-artifact@v2
         with:
-          name: archived-binary 
-          path: pulpo-macos.zip 
-      - name: Upload binary archive hash 
+          name: archived-binary
+          path: kraken-btc-macos.zip
+      - name: Upload binary archive hash
         uses: actions/upload-artifact@v2
         with:
           name: archived-binary-hash
-          path: pulpo-macos.zip.sha256
+          path: kraken-btc-macos.zip.sha256
 
   create-release:
     name: Create release
@@ -55,51 +55,51 @@ jobs:
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Create Tag
-      run: |
-        git tag ${{ github.event.inputs.version }}
-        git push --tags
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.event.inputs.version }}
-        release_name: ${{ github.event.inputs.version }}
-        commitish: master
-        draft: true
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create Tag
+        run: |
+          git tag ${{ github.event.inputs.version }}
+          git push --tags
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          release_name: ${{ github.event.inputs.version }}
+          commitish: master
+          draft: true
 
   upload_binary:
     name: Upload binary
     needs: create-release
     runs-on: macos-latest
     steps:
-    - name: Download binary archive
-      uses: actions/download-artifact@v2
-      with:
-        name: archived-binary
-    - name: Download binary archive hash
-      uses: actions/download-artifact@v2
-      with:
-        name: archived-binary-hash
-    - name: Upload binary archive
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ needs.create-release.outputs.upload_url }}
-        asset_path: pulpo-macos.zip
-        asset_name: pulpo-macos-${{ github.event.inputs.version }}.zip
-        asset_content_type: application/zip
-    - name: Upload binary archive hash
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ needs.create-release.outputs.upload_url }}
-        asset_path: pulpo-macos.zip.sha256
-        asset_name: pulpo-macos-${{ github.event.inputs.version }}.zip.sha256
-        asset_content_type: application/zip
+      - name: Download binary archive
+        uses: actions/download-artifact@v2
+        with:
+          name: archived-binary
+      - name: Download binary archive hash
+        uses: actions/download-artifact@v2
+        with:
+          name: archived-binary-hash
+      - name: Upload binary archive
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: kraken-btc-macos.zip
+          asset_name: kraken-btc-macos-${{ github.event.inputs.version }}.zip
+          asset_content_type: application/zip
+      - name: Upload binary archive hash
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ needs.create-release.outputs.upload_url }}
+          asset_path: kraken-btc-macos.zip.sha256
+          asset_name: pkraken-btculpo-macos-${{ github.event.inputs.version }}.zip.sha256
+          asset_content_type: application/zip

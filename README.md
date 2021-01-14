@@ -1,4 +1,4 @@
-<h1 align="center" style="font-weight: bold !important">pulpo 🐙</h1>
+<h1 align="center" style="font-weight: bold !important">kraken-btc 🐙</h1>
 
 <p align="center">
   An <em>opinionated</em> command line interface for buying Bitcoin on <a href="https://kraken.com">Kraken.com</a>. Written in Rust.
@@ -26,37 +26,37 @@ Binaries for macOS are available through Homebrew and GitHub releases. For other
 
 ```
 $ brew tap dnlggr/tap
-$ brew install pulpo
+$ brew install kraken-btc
 ```
 
 <details>
   <summary><i>Expand for uninstall instructions</i></summary>
   <p><code>$ brew untap dnlggr/tap</code></p>
-  <p><code>$ brew uninstall pulpo</code></p>
+  <p><code>$ brew uninstall kraken-btc</code></p>
 </details>
 
 ### Download Binary Release (macOS)
 
-You can find binaries for all releases on this repo's [releases page](https://github.com/dnlggr/pulpo/releases).
+You can find binaries for all releases on this repo's [releases page](https://github.com/dnlggr/kraken-btc/releases).
 
 ### From Source
 
 To build from source, you must have [Rust and Cargo installed](https://www.rust-lang.org/tools/install).
 
 ```
-$ git clone https://github.com/dnlggr/pulpo
-$ cd pulpo
+$ git clone https://github.com/dnlggr/kraken-btc
+$ cd kraken-btc
 $ cargo build --release
 ```
 
-This will build a binary in `target/release/pulpo`.
+This will build a binary in `target/release/kraken-btc`.
 
 ## 💸 Usage
 
-This is a short example on how to use `pulpo` to spend 100 Euro on Bitcoin.
+This is a short example on how to use `kraken-btc` to spend 100 Euro on Bitcoin.
 
 ```
-$ pulpo --api-key <...> --api-secret <...> buy --fiat-currency EUR --fiat-amount 100
+$ kraken-btc --api-key <...> --api-secret <...> buy --fiat-currency EUR --fiat-amount 100
 ```
 
 You'll get a confirmation of your order that looks something like the one below.
@@ -73,7 +73,7 @@ Make sure to double check your [orders page](https://www.kraken.com/u/trade#tab=
 
 **Tip:** Pass the optional `--dry-run` flag to the `buy` subcommand to test your order without actually placing it.
 
-For more detailed usage information and documentation run `pulpo help`.
+For more detailed usage information and documentation run `kraken-btc help`.
 
 ## 🔑 API Credentials
 

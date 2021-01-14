@@ -2,7 +2,7 @@ use structopt::StructOpt;
 
 #[derive(StructOpt)]
 #[structopt(
-    name = "pulpo",
+    name = "kraken-btc",
     about = "An opinionated CLI for buying Bitcoin on Kraken.com"
 )]
 pub struct Cli {
