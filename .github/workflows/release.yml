@@ -1,0 +1,105 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version
+        required: true
+
+env:
+  CARGO_TERM_COLOR: always
+  DEFAULT_BRANCH: master
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  build:
+    name: Build 
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          target: x86_64-apple-darwin
+      - name: Build release binary
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release
+      - name: Strip symbol table from binary
+        run: strip target/release/pulpo
+      - name: Archive binary
+        run: zip --junk-paths pulpo-macos target/release/pulpo
+      - name: Calculate SHA-256 
+        run: shasum -a 256 pulpo-macos.zip > pulpo-macos.zip.sha256
+      - name: Upload binary archive 
+        uses: actions/upload-artifact@v2
+        with:
+          name: archived-binary 
+          path: pulpo-macos.zip 
+      - name: Upload binary archive hash 
+        uses: actions/upload-artifact@v2
+        with:
+          name: archived-binary-hash
+          path: pulpo-macos.zip.sha256
+
+  create-release:
+    name: Create release
+    needs: build
+    runs-on: macos-latest
+    outputs:
+      upload_url: ${{ steps.create_release.outputs.upload_url }}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Create Tag
+      run: |
+        git tag ${{ github.event.inputs.version }}
+        git push --tags
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.event.inputs.version }}
+        release_name: ${{ github.event.inputs.version }}
+        commitish: master
+        draft: true
+
+  upload_binary:
+    name: Upload binary
+    needs: create-release
+    runs-on: macos-latest
+    steps:
+    - name: Download binary archive
+      uses: actions/download-artifact@v2
+      with:
+        name: archived-binary
+    - name: Download binary archive hash
+      uses: actions/download-artifact@v2
+      with:
+        name: archived-binary-hash
+    - name: Upload binary archive
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.create-release.outputs.upload_url }}
+        asset_path: pulpo-macos.zip
+        asset_name: pulpo-macos-${{ github.event.inputs.version }}.zip
+        asset_content_type: application/zip
+    - name: Upload binary archive hash
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ needs.create-release.outputs.upload_url }}
+        asset_path: pulpo-macos.zip.sha256
+        asset_name: pulpo-macos-${{ github.event.inputs.version }}.zip.sha256
+        asset_content_type: application/zip
