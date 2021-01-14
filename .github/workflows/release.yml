@@ -34,19 +34,19 @@ jobs:
       - name: Strip symbol table from binary
         run: strip target/release/kraken-btc
       - name: Archive binary
-        run: zip --junk-paths kraken-btc-macos target/release/kraken-btc
-      - name: Calculate SHA-256
-        run: shasum -a 256 kraken-btc-macos.zip > kraken-btc-macos.zip.sha256
+        run: tar -C target/release -czf kraken-btc-macos.tar.gz kraken-btc
+      - name: Calculate SHA-256 of archive
+        run: shasum -a 256 kraken-btc-macos.tar.gz > kraken-btc-macos.tar.gz.sha256
       - name: Upload binary archive
         uses: actions/upload-artifact@v2
         with:
           name: archived-binary
-          path: kraken-btc-macos.zip
+          path: kraken-btc-macos.tar.gz
       - name: Upload binary archive hash
         uses: actions/upload-artifact@v2
         with:
           name: archived-binary-hash
-          path: kraken-btc-macos.zip.sha256
+          path: kraken-btc-macos.tar.gz.sha256
 
   create-release:
     name: Create release
@@ -91,15 +91,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: kraken-btc-macos.zip
-          asset_name: kraken-btc-macos-${{ github.event.inputs.version }}.zip
-          asset_content_type: application/zip
+          asset_path: kraken-btc-macos.tar.gz
+          asset_name: kraken-btc-macos-${{ github.event.inputs.version }}.tar.gz
+          asset_content_type: application/gzip
       - name: Upload binary archive hash
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.create-release.outputs.upload_url }}
-          asset_path: kraken-btc-macos.zip.sha256
-          asset_name: pkraken-btculpo-macos-${{ github.event.inputs.version }}.zip.sha256
-          asset_content_type: application/zip
+          asset_path: kraken-btc-macos.tar.gz.sha256
+          asset_name: kraken-btc-macos-${{ github.event.inputs.version }}.tar.gz.sha256
+          asset_content_type: text/plain
