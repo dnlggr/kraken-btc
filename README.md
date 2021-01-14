@@ -44,12 +44,10 @@ You can find binaries for all releases on this repo's [releases page](https://gi
 To build from source, you must have [Rust and Cargo installed](https://www.rust-lang.org/tools/install).
 
 ```
-$ git clone https://github.com/dnlggr/kraken-btc
-$ cd kraken-btc
-$ cargo build --release
+$ cargo install kraken-btc 
 ```
 
-This will build a binary in `target/release/kraken-btc`.
+This will install a binary in your Rust installation root's `bin` directory. Typically, this is `$HOME/.cargo/bin`. 
 
 ## 💸 Usage
 
