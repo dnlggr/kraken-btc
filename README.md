@@ -74,7 +74,7 @@ For more detailed usage information and documentation run `kraken-btc help`.
 
 ## 🔑 API Credentials
 
-Create the necessary Kraken API here: [API settings page](https://www.kraken.com/u/security/api/new).
+Create the necessary Kraken API credentials here: [API settings page](https://www.kraken.com/u/security/api/new).
 
 To be able to place orders, the generated API credentials must have the **_Modify Orders_** permission.
 
