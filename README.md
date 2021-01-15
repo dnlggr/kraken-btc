@@ -10,6 +10,8 @@
   <a href="#-usage">Usage</a>
   <span> · </span>
   <a href="#-api-credentials">API Credentials</a>
+  <span> · </span>
+  <a href="#-is-this-safe">Is This Safe?</a>
 </h3>
 
 ---
@@ -76,6 +78,12 @@ For more detailed usage information and documentation run `kraken-btc help`.
 
 Create the necessary Kraken API credentials here: [API settings page](https://www.kraken.com/u/security/api/new).
 
-To be able to place orders, the generated API credentials must have the **_Modify Orders_** permission.
+To be able to place orders, the generated API credentials must have the **_Modify Orders_** permission. Other permissions are not needed.
 
 On some pages, the _API Key_ might be referred to as _API Public Key_. Likewise, the _API Secret_ is also known as _API Private Key_. It is important to keep these credentials safe and never share them with anyone. It's best to not store them in plain text on your computer but to use a password manager. More information on how to create API credentials can be found in Kraken's [documentation](https://support.kraken.com/hc/en-us/articles/360000919966-How-to-generate-an-API-key-pair-).
+
+## 🚓 Is This Safe?
+
+The API credentials that you use with `kraken-btc` need the **_Modify Orders_** permission. No other permission is needed. The **_Modify Orders_** permission allows anyone who might learn about the credentials to place new orders on your behalf. However, according to [Kraken's documentation](https://support.kraken.com/hc/en-us/articles/360000919966-How-to-generate-an-API-key-pair-), it does not allow them to withdraw any funds from your account.
+
+Of cource, your API credentials stay on your machine and `kraken-btc` does not store, transmit, or use them in any other way than to place orders on Kraken.
